@@ -32,5 +32,5 @@ main = do
         let (arrivalTime:processingTime:_) = map read $ words line :: [Int]
         return (arrivalTime, processingTime)
 
-     print (processPackages size packets)
+     mapM_ print (processPackages size packets)
 
