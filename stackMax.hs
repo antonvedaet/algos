@@ -3,40 +3,36 @@ module Main (main) where
 import Control.Monad
 import Data.Maybe
 
-newtype Stack a = Stack [Int] deriving Show
 
-getStack :: Stack a -> [Int]
-getStack (Stack values) = values
+data MaxStack = MaxStack [Int] [Int] deriving (Show)
 
-empty :: Stack a
-empty = Stack []
 
-push :: Int -> Stack a -> Stack a
-push x (Stack xs) = Stack(x:xs)
 
-pop :: Stack a -> Stack a
-pop (Stack []) = Stack []
-pop (Stack (_:xs)) = Stack xs
+getMaxStackValue :: MaxStack -> Int
+getMaxStackValue (MaxStack x (y:_)) = y
 
-max :: Stack a -> Int
-max (Stack a) = maximum a
+empty :: MaxStack
+empty = MaxStack [] []
+
+push :: Int -> MaxStack -> MaxStack
+push x (MaxStack xs ys)
+ | null ys = MaxStack (x:xs) (x:ys)
+ | x > head ys = MaxStack (x:xs) (x:ys)
+ | otherwise = MaxStack (x:xs) (head ys:ys)
+
+pop :: MaxStack -> MaxStack
+pop (MaxStack (_:xs) (_:ys)) = MaxStack xs ys
 
 interpret :: [String] -> [Int]
 interpret [] = []
 interpret commands = process empty commands []
     where
-        process :: Stack a -> [String] -> [Int] -> [Int]
-        process stack [] acc = acc
-        process stack (x:xs) acc = do
-            let command = words x
-            if head command == "push"
-                then process (push (read $ last command) stack)  xs acc
-            else if head command == "pop"
-                then process (pop stack) xs acc
-            else if head command == "max" && not (null (getStack stack))
-                then process stack xs (Main.max stack : acc)
-            else process stack xs acc
-
+        process :: MaxStack -> [String] -> [Int] -> [Int]
+        process ms [] max' = max'
+        process ms (x:xs) max' = case head $ words x of
+            "push" -> process (push (read $ last $ words x) ms) xs max'
+            "pop" -> process (pop ms) xs max'
+            "max" -> process ms xs (getMaxStackValue ms : max')
 
 main :: IO()
 main = do
@@ -46,4 +42,5 @@ main = do
 
     commands <- replicateM n $ do
         getLine
-    mapM_ print $ reverse (interpret commands)
+        
+    mapM_ print $ reverse $ interpret commands
