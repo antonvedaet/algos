@@ -1,6 +1,7 @@
-/*.o
-/*.hi
+*.o
+*.hi
 treeHeight
 stackMax
 networkPackages
+slidingWindowMax
 /*.py

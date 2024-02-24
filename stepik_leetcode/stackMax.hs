@@ -42,5 +42,5 @@ main = do
 
     commands <- replicateM n $ do
         getLine
-        
+
     mapM_ print $ reverse $ interpret commands
