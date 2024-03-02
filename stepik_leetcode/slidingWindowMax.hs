@@ -1,6 +1,5 @@
 {-# LANGUAGE GADTs #-}
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Use unwords" #-}
+
 module Main (main) where
 import Data.List (intercalate)
 

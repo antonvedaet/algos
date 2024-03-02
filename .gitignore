@@ -1,7 +1,6 @@
+*
+!*/
+!*.*
 *.o
 *.hi
-treeHeight
-stackMax
-networkPackages
-slidingWindowMax
 /*.py
