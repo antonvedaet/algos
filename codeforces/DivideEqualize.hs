@@ -20,12 +20,7 @@ task [] = []
 task arr = go arr []
     where
         go [] res = res
-        go (x:xs) res = go xs (test (length x) (read x):res) 
-
-
-printResult :: Bool -> IO ()
-printResult b = if b then putStrLn "Yes" else putStrLn "No"
-
+        go (x:xs) res = go xs (test (length $ words x) (map read $ words x :: [Int]) : res) 
 
 main :: IO ()
 
@@ -33,4 +28,4 @@ main = do
     ni <- getLine
     let n = read ni :: Int
     inp <- replicateM (n*2) getLine
-    mapM_ printResult $ task (f inp)
+    mapM_ (\x -> if x then putStrLn "Yes" else putStrLn "No") $ reverse $ task $ f inp
