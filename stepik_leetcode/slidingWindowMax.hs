@@ -43,4 +43,4 @@ main = do
     let arr = Deque (map read (words arrInput) :: [Int])
     m <- getLine
     let windowSize = read m :: Int
-    putStrLn $ intercalate " " $ show <$> slidingWindowMax arr arrSize windowSize
+    putStrLn $ unwords $ show <$> slidingWindowMax arr arrSize windowSize
